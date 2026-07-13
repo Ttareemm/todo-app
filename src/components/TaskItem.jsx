@@ -10,7 +10,15 @@ import {
 export default function TaskItem({ title, date, time, completed }) {
   return (
     <article className={`task-item ${completed ? "completed" : ""}`}>
-      <button className="check-btn" type="button">
+      <button
+        className="check-btn"
+        type="button"
+        aria-label={
+          completed
+            ? `Mark ${title} as incomplete`
+            : `Mark ${title} as completed`
+        }
+      >
         {completed ? <FiCheckCircle /> : <FiCircle />}
       </button>
 
@@ -30,11 +38,19 @@ export default function TaskItem({ title, date, time, completed }) {
         </div>
       </div>
 
-      <button className="action-btn edit-btn" type="button">
+      <button
+        className="action-btn edit-btn"
+        type="button"
+        aria-label={`Edit ${title}`}
+      >
         <FiEdit2 />
       </button>
 
-      <button className="action-btn delete-btn" type="button">
+      <button
+        className="action-btn delete-btn"
+        type="button"
+        aria-label={`Delete ${title}`}
+      >
         <FiTrash2 />
       </button>
     </article>
