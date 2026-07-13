@@ -7,7 +7,14 @@ import {
   FiCheckCircle,
 } from "react-icons/fi";
 
-export default function TaskItem({ title, date, time, completed }) {
+export default function TaskItem({
+  id,
+  title,
+  date,
+  time,
+  completed,
+  onToggleTask,
+}) {
   return (
     <article className={`task-item ${completed ? "completed" : ""}`}>
       <button
@@ -18,6 +25,7 @@ export default function TaskItem({ title, date, time, completed }) {
             ? `Mark ${title} as incomplete`
             : `Mark ${title} as completed`
         }
+        onClick={() => onToggleTask(id)}
       >
         {completed ? <FiCheckCircle /> : <FiCircle />}
       </button>
