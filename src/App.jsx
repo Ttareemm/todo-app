@@ -3,8 +3,11 @@ import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
 import TasksSummary from "./components/TasksSummary";
 import TaskList from "./components/TaskList";
+import tasks from "./data/tasks";
 
 export default function App() {
+  const completedTasks = tasks.filter((task) => task.completed).length;
+
   return (
     <main className="app">
       <Header />
@@ -12,9 +15,12 @@ export default function App() {
       <section className="tasks-container">
         <TaskForm />
 
-        <TasksSummary completedTasks={1} totalTasks={2} />
+        <TasksSummary
+          completedTasks={completedTasks}
+          totalTasks={tasks.length}
+        />
 
-        <TaskList />
+        <TaskList tasks={tasks} />
       </section>
     </main>
   );
