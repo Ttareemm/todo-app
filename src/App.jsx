@@ -8,9 +8,11 @@ import initialTasks from "./data/tasks";
 
 export default function App() {
   const [tasks, setTasks] = useState(initialTasks);
+  const [isFormOpen, setIsFormOpen] = useState(false);
 
   function addTask(newTask) {
     setTasks((prevTasks) => [...prevTasks, newTask]);
+    setIsFormOpen(false);
   }
 
   function toggleTask(id) {
@@ -23,6 +25,12 @@ export default function App() {
     );
   }
 
+  function deleteTask(id) {
+    setTasks((prevTasks) =>
+      prevTasks.filter((task) => task.id !== id)
+    );
+  }
+
   const completedTasks = tasks.filter((task) => task.completed).length;
 
   return (
@@ -30,7 +38,19 @@ export default function App() {
       <Header />
 
       <section className="tasks-container">
-        <TaskForm onAddTask={addTask} />
+        <div className="form-header">
+          <h2>My Tasks</h2>
+
+          <button
+            type="button"
+            className={isFormOpen ? "cancel-btn" : "add-task-btn"}
+            onClick={() => setIsFormOpen((prevValue) => !prevValue)}
+          >
+            {isFormOpen ? "× Cancel" : "+ Add Task"}
+          </button>
+        </div>
+
+        {isFormOpen && <TaskForm onAddTask={addTask} />}
 
         <TasksSummary
           completedTasks={completedTasks}
@@ -40,6 +60,7 @@ export default function App() {
         <TaskList
           tasks={tasks}
           onToggleTask={toggleTask}
+          onDeleteTask={deleteTask}
         />
       </section>
     </main>
