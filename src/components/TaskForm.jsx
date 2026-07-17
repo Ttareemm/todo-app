@@ -1,25 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function TaskForm({
   editingTask,
   onAddTask,
   onUpdateTask,
 }) {
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-
-  useEffect(() => {
-    if (editingTask) {
-      setTitle(editingTask.title);
-      setDate(editingTask.date);
-      setTime(editingTask.time);
-    } else {
-      setTitle("");
-      setDate("");
-      setTime("");
-    }
-  }, [editingTask]);
+  const [title, setTitle] = useState(editingTask?.title || "");
+  const [date, setDate] = useState(editingTask?.date || "");
+  const [time, setTime] = useState(editingTask?.time || "");
 
   function handleSubmit(event) {
     event.preventDefault();

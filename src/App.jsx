@@ -15,9 +15,19 @@ export default function App() {
 
   function addTask(newTask) {
     setTasks((prevTasks) => [...prevTasks, newTask]);
-
     setIsFormOpen(false);
     setEditingTask(null);
+  }
+
+  function updateTask(updatedTask) {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+    );
+
+    setEditingTask(null);
+    setIsFormOpen(false);
   }
 
   function toggleTask(id) {
@@ -44,23 +54,10 @@ export default function App() {
   function startEditingTask(id) {
     const selectedTask = tasks.find((task) => task.id === id);
 
-    if (!selectedTask) {
-      return;
-    }
+    if (!selectedTask) return;
 
     setEditingTask(selectedTask);
     setIsFormOpen(true);
-  }
-
-  function updateTask(updatedTask) {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task
-      )
-    );
-
-    setEditingTask(null);
-    setIsFormOpen(false);
   }
 
   function handleFormButton() {
@@ -68,6 +65,7 @@ export default function App() {
       setIsFormOpen(false);
       setEditingTask(null);
     } else {
+      setEditingTask(null);
       setIsFormOpen(true);
     }
   }
@@ -94,11 +92,14 @@ export default function App() {
         </div>
 
         {isFormOpen && (
-          <TaskForm
-            editingTask={editingTask}
-            onAddTask={addTask}
-            onUpdateTask={updateTask}
-          />
+          <div className="form-wrapper">
+            <TaskForm
+              key={editingTask?.id ?? "new-task"}
+              editingTask={editingTask}
+              onAddTask={addTask}
+              onUpdateTask={updateTask}
+            />
+          </div>
         )}
 
         <TasksSummary
