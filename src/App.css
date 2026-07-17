@@ -28,7 +28,7 @@ body {
   margin: auto;
 }
 
-/* ---------- Form ---------- */
+
 
 .task-form {
   margin-bottom: 50px;
@@ -56,6 +56,12 @@ body {
   font-size: 15px;
   font-weight: bold;
   box-shadow: 0 8px 18px rgba(245, 91, 104, .35);
+  transition: .25s;
+}
+
+.cancel-btn:hover {
+  background: #e14856;
+  transform: translateY(-2px);
 }
 
 label {
@@ -72,6 +78,10 @@ input {
   padding: 0 15px;
   font-size: 15px;
   outline: none;
+}
+
+input:focus {
+  border-color: #3044b8;
 }
 
 .date-time-row {
@@ -95,9 +105,15 @@ input {
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
+  transition: .25s;
 }
 
-/* ---------- Summary ---------- */
+.submit-btn:hover {
+  background: #243bad;
+  transform: translateY(-2px);
+}
+
+
 
 .tasks-summary {
   display: flex;
@@ -117,7 +133,6 @@ input {
   font-weight: bold;
 }
 
-/* ---------- Tasks ---------- */
 
 .task-list {
   display: flex;
@@ -149,7 +164,6 @@ input {
 .task-info {
   height: 100%;
   padding: 0 15px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -182,18 +196,36 @@ input {
   border: none;
   background: #f4f6ff;
   cursor: pointer;
+  transition: .25s;
 }
 
 .action-btn svg {
   font-size: 18px;
 }
 
+.action-btn:hover {
+  background: #e8ecff;
+}
+
 .edit-btn {
   color: #4e68d4;
 }
 
+.edit-btn:hover {
+  color: #3044b8;
+}
+
 .delete-btn {
   color: #ef5d73;
+}
+
+.delete-btn:hover {
+  color: #dc3d56;
+}
+
+.check-btn:hover {
+  transform: scale(1.15);
+  transition: .2s;
 }
 
 .completed {
@@ -204,7 +236,47 @@ input {
   text-decoration: line-through;
 }
 
-/* ---------- Responsive ---------- */
+
+
+.add-task-btn {
+  background: #2d47c8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 30px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: bold;
+  box-shadow: 0 8px 18px rgba(45, 71, 200, 0.35);
+  transition: .25s;
+}
+
+.add-task-btn:hover {
+  background: #243bad;
+  transform: translateY(-2px);
+}
+
+
+
+.form-wrapper {
+  overflow: hidden;
+  transform-origin: top;
+  animation: curtain .35s ease;
+}
+
+@keyframes curtain {
+  from {
+    opacity: 0;
+    transform: scaleY(.7);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+
 
 @media (max-width: 768px) {
   .tasks-container {
@@ -230,19 +302,4 @@ input {
     flex-direction: column;
     gap: 4px;
   }
-}
-.add-task-btn {
-  background: #2d47c8;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 30px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-  box-shadow: 0 8px 18px rgba(45, 71, 200, 0.35);
-}
-
-.add-task-btn:hover {
-  background: #243bad;
 }
