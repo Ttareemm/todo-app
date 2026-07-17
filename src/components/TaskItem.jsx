@@ -14,6 +14,7 @@ export default function TaskItem({
   time,
   completed,
   onToggleTask,
+  onDeleteTask,
 }) {
   return (
     <article className={`task-item ${completed ? "completed" : ""}`}>
@@ -58,6 +59,7 @@ export default function TaskItem({
         className="action-btn delete-btn"
         type="button"
         aria-label={`Delete ${title}`}
+        onClick={() => onDeleteTask(id)}
       >
         <FiTrash2 />
       </button>

@@ -1,6 +1,10 @@
 import TaskItem from "./TaskItem";
 
-export default function TaskList({ tasks, onToggleTask }) {
+export default function TaskList({
+  tasks,
+  onToggleTask,
+  onDeleteTask,
+}) {
   return (
     <div className="task-list">
       {tasks.map((task) => (
@@ -12,6 +16,7 @@ export default function TaskList({ tasks, onToggleTask }) {
           time={task.time}
           completed={task.completed}
           onToggleTask={onToggleTask}
+          onDeleteTask={onDeleteTask}
         />
       ))}
     </div>
