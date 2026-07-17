@@ -4,6 +4,7 @@ export default function TaskList({
   tasks,
   onToggleTask,
   onDeleteTask,
+  onEditTask,
 }) {
   return (
     <div className="task-list">
@@ -17,6 +18,7 @@ export default function TaskList({
           completed={task.completed}
           onToggleTask={onToggleTask}
           onDeleteTask={onDeleteTask}
+          onEditTask={onEditTask}
         />
       ))}
     </div>

@@ -15,6 +15,7 @@ export default function TaskItem({
   completed,
   onToggleTask,
   onDeleteTask,
+  onEditTask,
 }) {
   return (
     <article className={`task-item ${completed ? "completed" : ""}`}>
@@ -51,6 +52,7 @@ export default function TaskItem({
         className="action-btn edit-btn"
         type="button"
         aria-label={`Edit ${title}`}
+        onClick={() => onEditTask(id)}
       >
         <FiEdit2 />
       </button>

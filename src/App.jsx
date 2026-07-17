@@ -1,18 +1,23 @@
 import { useState } from "react";
 import "./App.css";
+
 import Header from "./components/Header";
 import TaskForm from "./components/TaskForm";
 import TasksSummary from "./components/TasksSummary";
 import TaskList from "./components/TaskList";
+
 import initialTasks from "./data/tasks";
 
 export default function App() {
   const [tasks, setTasks] = useState(initialTasks);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
   function addTask(newTask) {
     setTasks((prevTasks) => [...prevTasks, newTask]);
+
     setIsFormOpen(false);
+    setEditingTask(null);
   }
 
   function toggleTask(id) {
@@ -29,9 +34,47 @@ export default function App() {
     setTasks((prevTasks) =>
       prevTasks.filter((task) => task.id !== id)
     );
+
+    if (editingTask?.id === id) {
+      setEditingTask(null);
+      setIsFormOpen(false);
+    }
   }
 
-  const completedTasks = tasks.filter((task) => task.completed).length;
+  function startEditingTask(id) {
+    const selectedTask = tasks.find((task) => task.id === id);
+
+    if (!selectedTask) {
+      return;
+    }
+
+    setEditingTask(selectedTask);
+    setIsFormOpen(true);
+  }
+
+  function updateTask(updatedTask) {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+    );
+
+    setEditingTask(null);
+    setIsFormOpen(false);
+  }
+
+  function handleFormButton() {
+    if (isFormOpen) {
+      setIsFormOpen(false);
+      setEditingTask(null);
+    } else {
+      setIsFormOpen(true);
+    }
+  }
+
+  const completedTasks = tasks.filter(
+    (task) => task.completed
+  ).length;
 
   return (
     <main className="app">
@@ -44,13 +87,19 @@ export default function App() {
           <button
             type="button"
             className={isFormOpen ? "cancel-btn" : "add-task-btn"}
-            onClick={() => setIsFormOpen((prevValue) => !prevValue)}
+            onClick={handleFormButton}
           >
             {isFormOpen ? "× Cancel" : "+ Add Task"}
           </button>
         </div>
 
-        {isFormOpen && <TaskForm onAddTask={addTask} />}
+        {isFormOpen && (
+          <TaskForm
+            editingTask={editingTask}
+            onAddTask={addTask}
+            onUpdateTask={updateTask}
+          />
+        )}
 
         <TasksSummary
           completedTasks={completedTasks}
@@ -61,6 +110,7 @@ export default function App() {
           tasks={tasks}
           onToggleTask={toggleTask}
           onDeleteTask={deleteTask}
+          onEditTask={startEditingTask}
         />
       </section>
     </main>

@@ -1,9 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function TaskForm({ onAddTask }) {
+export default function TaskForm({
+  editingTask,
+  onAddTask,
+  onUpdateTask,
+}) {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  useEffect(() => {
+    if (editingTask) {
+      setTitle(editingTask.title);
+      setDate(editingTask.date);
+      setTime(editingTask.time);
+    } else {
+      setTitle("");
+      setDate("");
+      setTime("");
+    }
+  }, [editingTask]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -12,15 +28,26 @@ export default function TaskForm({ onAddTask }) {
       return;
     }
 
-    const newTask = {
-      id: Date.now(),
-      title: title.trim(),
-      date,
-      time,
-      completed: false,
-    };
+    if (editingTask) {
+      const updatedTask = {
+        ...editingTask,
+        title: title.trim(),
+        date,
+        time,
+      };
 
-    onAddTask(newTask);
+      onUpdateTask(updatedTask);
+    } else {
+      const newTask = {
+        id: Date.now(),
+        title: title.trim(),
+        date,
+        time,
+        completed: false,
+      };
+
+      onAddTask(newTask);
+    }
   }
 
   return (
@@ -38,6 +65,7 @@ export default function TaskForm({ onAddTask }) {
       <div className="date-time-row">
         <div className="form-group">
           <label htmlFor="task-date">Day</label>
+
           <input
             id="task-date"
             type="date"
@@ -48,6 +76,7 @@ export default function TaskForm({ onAddTask }) {
 
         <div className="form-group">
           <label htmlFor="task-time">Time</label>
+
           <input
             id="task-time"
             type="time"
@@ -58,7 +87,7 @@ export default function TaskForm({ onAddTask }) {
       </div>
 
       <button type="submit" className="submit-btn">
-        + Add Task
+        {editingTask ? "Save Changes" : "+ Add Task"}
       </button>
     </form>
   );
