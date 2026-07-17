@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import Header from "./components/Header";
@@ -9,9 +9,27 @@ import TaskList from "./components/TaskList";
 import initialTasks from "./data/tasks";
 
 export default function App() {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState(() => {
+    try {
+      const savedTasks = localStorage.getItem("tasks");
+
+      return savedTasks ? JSON.parse(savedTasks) : initialTasks;
+    } catch (error) {
+      console.error("Failed to load tasks from localStorage:", error);
+      return initialTasks;
+    }
+  });
+
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    } catch (error) {
+      console.error("Failed to save tasks to localStorage:", error);
+    }
+  }, [tasks]);
 
   function addTask(newTask) {
     setTasks((prevTasks) => [...prevTasks, newTask]);
@@ -54,7 +72,9 @@ export default function App() {
   function startEditingTask(id) {
     const selectedTask = tasks.find((task) => task.id === id);
 
-    if (!selectedTask) return;
+    if (!selectedTask) {
+      return;
+    }
 
     setEditingTask(selectedTask);
     setIsFormOpen(true);
